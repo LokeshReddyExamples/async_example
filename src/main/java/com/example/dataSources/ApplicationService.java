@@ -1,5 +1,6 @@
 package com.example.dataSources;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
@@ -23,9 +24,12 @@ public class ApplicationService {
 				CompletableFuture.allOf(futures.toArray(new CompletableFuture[futures.size()]));
 		return allDoneFuture.thenApply(v ->
 		futures.stream().
-		map(future -> future.join()).
-		collect(Collectors.toList())
-				);
+		map(future -> {
+			return future.thenApply(fuObject -> {
+				fuObject.size(); // added for exception scenerio
+				return fuObject;
+			}).exceptionally(ex -> Arrays.asList(new DataBean("exception"))).join();
+		}).collect(Collectors.toList()));
 	}
 
 

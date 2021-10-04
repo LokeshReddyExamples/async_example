@@ -20,7 +20,9 @@ public class ApplicationController {
     @GetMapping("/makesMultipleHttpCal")
     public CompletableFuture<Object>  execute()  {
     	List<String> topSites = Arrays.asList(
-		        "http://localhost:8082/sites", "http://localhost:8082/organization");
+		        "http://localhost:8082/sites", 
+		        "http://localhost:8082/organization",
+		        "http://localhost:8082/exceptionService");
     	CompletableFuture<Object> allDoneFutureNew = applicationService.loadAsync(topSites);
     	return allDoneFutureNew;
     }
