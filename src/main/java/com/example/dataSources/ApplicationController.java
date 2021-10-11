@@ -1,6 +1,6 @@
 package com.example.dataSources;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -19,10 +19,16 @@ public class ApplicationController {
    
     @GetMapping("/makesMultipleHttpCal")
     public CompletableFuture<Object>  execute()  {
-    	List<String> topSites = Arrays.asList(
-		        "http://localhost:8082/sites", 
-		        "http://localhost:8082/organization",
-		        "http://localhost:8082/exceptionService");
+    List<String> topSites = new ArrayList<>();
+    	
+    	//for (int i=0;i<25;i++) {
+    		topSites.add("http://localhost:8084/sites"); 
+    		topSites.add("http://localhost:8084/organization");
+    		topSites.add("http://localhost:8084/nocontent");
+    		topSites.add("http://localhost:8084/timeOut");
+    		topSites.add("http://localhost:8084/exception");
+    	//}
+    		
     	CompletableFuture<Object> allDoneFutureNew = applicationService.loadAsync(topSites);
     	return allDoneFutureNew;
     }
